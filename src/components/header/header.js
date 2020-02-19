@@ -22,7 +22,6 @@ class header extends Component {
       profile: false
     };
   }
-
   setProfileState = () => {
     const { profile } = this.state;
     this.setState({

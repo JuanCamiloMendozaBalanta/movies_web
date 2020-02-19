@@ -14,15 +14,22 @@
     .dashboard-controls {
       display: flex;
       margin-bottom: 15px;
-      width: fit-content;
-      .dashboard-options {
-        margin: 5px;
-        padding-bottom: 5px;
-        cursor: pointer;
-      }
-      .isSelected {
-        font-weight: bold;
-        border-bottom: solid 3px var(--dark-yellow);
+      width: 100%;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      .dashboard-years {
+        display: flex;
+        width: fit-content;
+        .dashboard-options {
+          margin: 5px;
+          padding-bottom: 5px;
+          cursor: pointer;
+        }
+        .isSelected {
+          font-weight: bold;
+          border-bottom: solid 3px var(--dark-yellow);
+        }
       }
     }
     .dashboard-content {

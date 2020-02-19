@@ -17,44 +17,35 @@ import Movie from '../movie/movie';
 import './home.scss';
 
 class Home extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      profile: false
-    };
-  }
-
-  setProfileState = () => {
-    const { profile } = this.state;
-    this.setState({
-      profile: profile ? false : true
-    });
-  };
   render() {
-    const { profile } = this.state;
     return (
       <div className="home-box">
         <MContext.Consumer>
           {context => (
             <React.Fragment>
-              <Header
-                profile={profile}
-                setProfileState={this.setProfileState}
-                context={context}
-              />
+              <Header context={context} />
               <Switch>
+                {context.isAuthenticated ? (
+                  <Route
+                    exact
+                    path="/"
+                    render={props => <Dashboard {...props} context={context} />}
+                  />
+                ) : (
+                  <Route exact path="/" component={Login} />
+                )}
+
+                <Route exact path="/login" component={Login} />
                 <Route
                   exact
-                  path="/"
-                  component={context.isAuthenticated ? Dashboard : Login}
+                  path="/home"
+                  render={props => <Dashboard {...props} context={context} />}
                 />
-                <Route exact path="/login" component={Login} />
-                <Route exact path="/home" component={Dashboard} />
                 <Route
                   exact
                   path="/movie/:id"
                   render={props => <Movie {...props} context={context} />}
-                ></Route>
+                />
                 <Route component={Login} />
               </Switch>
             </React.Fragment>

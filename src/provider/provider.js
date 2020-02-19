@@ -32,6 +32,7 @@ class Provider extends Component {
       { id: 0, isSelected: false, year: 2010 }
     ],
     currentYear: 2019,
+    currentSearch: 'a',
     auth0Client: null,
     isLoading: true,
     user: null,
@@ -77,9 +78,15 @@ class Provider extends Component {
       ],
       currentYear: year
     });
-    await this.initMovies(year);
+    await this.initMovies(year, this.state.currentSearch);
   };
-
+  setCurrentSearch = async value => {
+    const search = value && value !== '' ? value : 'a';
+    this.setState({
+      currentSearch: search
+    });
+    await this.initMovies(this.state.currentYear, search);
+  };
   setCurrentMovie = async id => {
     const movie = await this.initCurrentMovie(id);
     await this.updateScoreAndComments(movie);
@@ -197,7 +204,8 @@ class Provider extends Component {
         localStorage.setItem('user', JSON.stringify(user));
       }
     } else {
-      await this.initMovies(this.state.currentYear);
+      const { currentYear, currentSearch } = this.state;
+      await this.initMovies(currentYear, currentSearch);
       this.setState({
         user: userLocalStorage,
         isAuthenticated: true,
@@ -206,11 +214,11 @@ class Provider extends Component {
     }
   };
 
-  initMovies = async year => {
+  initMovies = async (year, search) => {
     try {
       axios
         .get(
-          `${movie_api_url}/search/movie?api_key=${movie_key}&query=a&page=1&region=US&year=${year}`
+          `${movie_api_url}/search/movie?api_key=${movie_key}&query=${search}&page=1&region=US&year=${year}`
         )
         .then(response => {
           this.setState({
@@ -297,7 +305,8 @@ class Provider extends Component {
     await auth0Client.handleRedirectCallback();
     const user = await auth0Client.getUser();
     if (user) {
-      await this.initMovies(this.state.currentYear);
+      const { currentYear, currentSearch } = this.state;
+      await this.initMovies(currentYear, currentSearch);
       this.setState({ user, isAuthenticated: true, isLoading: false });
       localStorage.setItem('user', JSON.stringify(user));
     }
@@ -342,6 +351,7 @@ class Provider extends Component {
       setCurrentMovie,
       setMovieScore,
       setMovieComment,
+      setCurrentSearch,
       logout
     } = this;
     const configObject = {
@@ -355,6 +365,7 @@ class Provider extends Component {
       setMovieScore,
       setMovieComment,
       headerOptions,
+      setCurrentSearch,
       loginWithRedirect: (...p) => auth0Client.loginWithRedirect(...p),
       getTokenSilently: (...p) => auth0Client.getTokenSilently(...p),
       getIdTokenClaims: (...p) => auth0Client.getIdTokenClaims(...p),
