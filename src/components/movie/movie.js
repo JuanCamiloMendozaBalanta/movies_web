@@ -82,18 +82,22 @@ const Movie = props => {
                   />
                 </div>
               </div>
-              <ul className="movie-others-comments">
-                {context.currentMovie.comments.map((item, i) => {
-                  return (
-                    <li key={i} className="movie-other-users">
-                      <p>{item.user}</p>
-                      <p>{item.comment}</p>
-                    </li>
-                  );
-                })}
-              </ul>
             </div>
           </div>
+          {context.currentMovie.comments && (
+            <ul className="movie-others-comments">
+              {context.currentMovie.comments.map((item, i) => {
+                return (
+                  <li key={i} className="movie-other-users">
+                    <p className="movie-others-comments-user">{item.user}</p>
+                    <p className="movie-others-comments-comment">
+                      {item.comment}
+                    </p>
+                  </li>
+                );
+              })}
+            </ul>
+          )}
         </section>
       )}
     </div>

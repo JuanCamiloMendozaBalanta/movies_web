@@ -77,7 +77,7 @@ class Provider extends Component {
       ],
       currentYear: year
     });
-    await this.saveInfoMovie(this.state.currentMovie);
+    await this.initMovies(year);
   };
 
   setCurrentMovie = async id => {
@@ -111,16 +111,8 @@ class Provider extends Component {
   };
 
   setMovieComment = async comment => {
-    const { comments, id } = this.state.currentMovie;
-    const { email } = this.state.user;
-    const newComments = comments;
-    const newComment = {
-      user: email,
-      comment
-    };
-    newComments.push(newComment);
+    const { id } = this.state.currentMovie;
     const newMovie = this.state.currentMovie;
-    newMovie.comments = newComments;
     newMovie.currentComment = comment;
 
     this.setState({
@@ -218,7 +210,7 @@ class Provider extends Component {
     try {
       axios
         .get(
-          `${movie_api_url}/search/movie?api_key=${movie_key}&query=a&page=1&region=US&year=${2019}`
+          `${movie_api_url}/search/movie?api_key=${movie_key}&query=a&page=1&region=US&year=${year}`
         )
         .then(response => {
           this.setState({
@@ -273,22 +265,26 @@ class Provider extends Component {
     const { id } = movie;
     const data = await this.getInfoMovies(id);
     const { user } = this.state;
-    const userInfo = data.find(
-      ele => ele.user === user.email && ele.movie === id.toString()
-    );
-    if (userInfo) {
-      const { score, comment } = userInfo;
+    if (data) {
+      const otherComments = data.filter(ele => ele.user !== user.email);
+      const userInfo = data.find(
+        ele => ele.user === user.email && ele.movie === id.toString()
+      );
       const newMovie = movie;
-      const newScore = movie.score.map(ele => {
-        if (ele.id <= score) {
-          ele.isSelected = true;
-        } else {
-          ele.isSelected = false;
-        }
-        return ele;
-      });
-      newMovie.score = newScore;
-      newMovie.currentComment = comment;
+      newMovie.comments = otherComments;
+      if (userInfo) {
+        const { score, comment } = userInfo;
+        const newScore = movie.score.map(ele => {
+          if (ele.id <= score) {
+            ele.isSelected = true;
+          } else {
+            ele.isSelected = false;
+          }
+          return ele;
+        });
+        newMovie.score = newScore;
+        newMovie.currentComment = comment;
+      }
       this.setState({
         currentMovie: newMovie
       });
