@@ -131,17 +131,17 @@ class Provider extends Component {
   save = async data => {
     const { id, currentScore, comment } = data;
     const { email } = this.state.user;
-    const movie = await this.getInfoMovies(id, email);
+    const getInfoMovies = await this.getInfoMovies(id, email);
     const info = {
       movie: id,
       user: email,
       score: currentScore,
       comment
     };
-    if (!movie) {
-      await this.saveInfoMovies(info);
-    } else {
+    if (getInfoMovies && getInfoMovies.length > 0) {
       await this.updateInfoMovies(info);
+    } else {
+      await this.saveInfoMovies(info);
     }
   };
 
@@ -324,6 +324,7 @@ class Provider extends Component {
   };
 
   componentDidMount = async () => {
+    window.scrollTo(0, 0);
     await this.initializeAuth0();
   };
 
