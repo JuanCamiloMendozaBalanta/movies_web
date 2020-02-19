@@ -132,24 +132,24 @@ class Provider extends Component {
   save = async data => {
     const { id, currentScore, comment } = data;
     const { email } = this.state.user;
-    const movies = await this.getInfoMovies(id);
+    const movie = await this.getInfoMovies(id, email);
     const info = {
       movie: id,
       user: email,
       score: currentScore,
       comment
     };
-    if (movies && movies.length === 0) {
+    if (!movie) {
       await this.saveInfoMovies(info);
     } else {
       await this.updateInfoMovies(info);
     }
   };
 
-  getInfoMovies = idMovie => {
+  getInfoMovies = (idMovie, email) => {
     try {
       return axios
-        .get(`${api_url}/movies/?id=${idMovie}`)
+        .get(`${api_url}/movies/?movie=${idMovie}&user=${email}`)
         .then(response => {
           return response.data;
         })

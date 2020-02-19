@@ -15,10 +15,15 @@ const Movie = props => {
   const [comment, setComment] = useState('');
   useEffect(() => {
     const textarea = document.getElementById('textarea-1');
-    if (textarea) {
+    if (textarea && context.currentMovie.currentComment) {
       textarea.value = context.currentMovie.currentComment;
     }
   });
+
+  const callToSetComment = comment => {
+    setComment(comment);
+    context.setMovieComment(comment);
+  };
 
   return (
     <div className="movie-box">
@@ -40,6 +45,7 @@ const Movie = props => {
                 {context.currentMovie.score.map((item, i) => {
                   return (
                     <li
+                      key={i}
                       className="movie-start"
                       onClick={() => context.setMovieScore(item.id)}
                     >
@@ -64,16 +70,28 @@ const Movie = props => {
                     backgroundColor="#439f9a"
                     textColor="#ffffff"
                     icon="add_comment"
-                    setMovieComment={context.setMovieComment}
+                    setMovieComment={callToSetComment}
                     comment={comment}
                   />
                   <CustomButton
                     backgroundColor="#ea3e3c"
                     textColor="#ffffff"
                     icon="delete"
+                    setMovieComment={callToSetComment}
+                    comment=""
                   />
                 </div>
               </div>
+              <ul className="movie-others-comments">
+                {context.currentMovie.comments.map((item, i) => {
+                  return (
+                    <li key={i} className="movie-other-users">
+                      <p>{item.user}</p>
+                      <p>{item.comment}</p>
+                    </li>
+                  );
+                })}
+              </ul>
             </div>
           </div>
         </section>
