@@ -5,11 +5,19 @@ import React from 'react';
 import './cutomButton.scss';
 
 const CustomButton = props => {
-  const { backgroundColor, textColor, text, icon } = props;
+  const {
+    backgroundColor,
+    textColor,
+    text,
+    icon,
+    setMovieComment,
+    comment
+  } = props;
   return (
     <div
       className="cutomButton-box"
       style={{ backgroundColor: `${backgroundColor}`, color: `${textColor}` }}
+      onClick={() => setMovieComment(comment)}
     >
       {text ? <p className="cutomButton-tex">{text}</p> : ''}
       <div>

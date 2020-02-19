@@ -36,9 +36,11 @@ class Dashboard extends Component {
                 {context.movies.results &&
                   context.movies.results.map((item, i) => {
                     return (
-                      <div onClick={() => context.setCurrentMovie(item.id)}>
+                      <div
+                        key={i}
+                        onClick={() => context.setCurrentMovie(item.id)}
+                      >
                         <MovieCard
-                          key={i}
                           image={item.poster_path}
                           date={item.release_date}
                           title={item.title}

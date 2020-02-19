@@ -70,7 +70,12 @@
           display: flex;
           flex-flow: column;
           padding-top: 10px;
+          .movie-text-comment {
+            padding: 10px;
+            border: solid 1px lightgray;
+          }
         }
+
         .movie-comment-buttons {
           display: flex;
           padding-top: 10px;

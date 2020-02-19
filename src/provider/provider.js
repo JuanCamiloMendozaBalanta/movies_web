@@ -51,7 +51,8 @@ class Provider extends Component {
         { id: 5, isSelected: false }
       ],
       currentScore: 0,
-      comments: ''
+      comments: [],
+      currentComment: ''
     }
   };
 
@@ -86,17 +87,7 @@ class Provider extends Component {
   };
 
   setMovieScore = async scoreId => {
-    const {
-      id,
-      release_date,
-      title,
-      overview,
-      poster_path,
-      comments,
-      currentScore,
-      score
-    } = this.state.currentMovie;
-
+    const { currentScore, score } = this.state.currentMovie;
     if (scoreId === currentScore) {
       scoreId--;
     }
@@ -109,20 +100,33 @@ class Provider extends Component {
       return ele;
     });
 
-    const newMovie = {
-      id,
-      release_date,
-      title,
-      overview,
-      poster_path,
-      score: newScore,
-      currentScore: scoreId,
-      comments
-    };
+    const newMovie = this.state.currentMovie;
+    newMovie.score = newScore;
+    newMovie.currentScore = scoreId;
+
     this.setState({
       currentMovie: newMovie
     });
     await this.save(newMovie);
+  };
+
+  setMovieComment = async comment => {
+    const { comments, id } = this.state.currentMovie;
+    const { email } = this.state.user;
+    const newComments = comments;
+    const newComment = {
+      user: email,
+      comment
+    };
+    newComments.push(newComment);
+    const newMovie = this.state.currentMovie;
+    newMovie.comments = newComments;
+    newMovie.currentComment = comment;
+
+    this.setState({
+      currentMovie: newMovie
+    });
+    await this.save({ id, comment });
   };
 
   save = async data => {
@@ -269,14 +273,11 @@ class Provider extends Component {
     const { id } = movie;
     const data = await this.getInfoMovies(id);
     const { user } = this.state;
-    console.log();
-    const userInfo = data.find(ele => {
-      if (ele.user === user.email && ele.movie === id.toString()) {
-        return ele;
-      }
-    });
+    const userInfo = data.find(
+      ele => ele.user === user.email && ele.movie === id.toString()
+    );
     if (userInfo) {
-      const { score } = userInfo;
+      const { score, comment } = userInfo;
       const newMovie = movie;
       const newScore = movie.score.map(ele => {
         if (ele.id <= score) {
@@ -287,9 +288,9 @@ class Provider extends Component {
         return ele;
       });
       newMovie.score = newScore;
+      newMovie.currentComment = comment;
       this.setState({
-        currentMovie: newMovie,
-        currentScore: score
+        currentMovie: newMovie
       });
     }
   };
@@ -340,7 +341,13 @@ class Provider extends Component {
       movies,
       currentMovie
     } = this.state;
-    const { selectHeaderOption, setCurrentMovie, setMovieScore, logout } = this;
+    const {
+      selectHeaderOption,
+      setCurrentMovie,
+      setMovieScore,
+      setMovieComment,
+      logout
+    } = this;
     const configObject = {
       isLoading,
       isAuthenticated,
@@ -350,6 +357,7 @@ class Provider extends Component {
       selectHeaderOption,
       setCurrentMovie,
       setMovieScore,
+      setMovieComment,
       headerOptions,
       loginWithRedirect: (...p) => auth0Client.loginWithRedirect(...p),
       getTokenSilently: (...p) => auth0Client.getTokenSilently(...p),

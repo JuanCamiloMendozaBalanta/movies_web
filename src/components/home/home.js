@@ -50,7 +50,11 @@ class Home extends Component {
                 />
                 <Route exact path="/login" component={Login} />
                 <Route exact path="/home" component={Dashboard} />
-                <Route exact path="/movie/:id" component={Movie} />
+                <Route
+                  exact
+                  path="/movie/:id"
+                  render={props => <Movie {...props} context={context} />}
+                ></Route>
                 <Route component={Login} />
               </Switch>
             </React.Fragment>
