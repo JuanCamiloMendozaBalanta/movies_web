@@ -1,0 +1,23 @@
+.cutomButton-box {
+  display: flex;
+  padding: 5px 20px;
+  border-radius: 30px;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+  opacity: 80%;
+  cursor: pointer;
+  .cutomButton-tex {
+    text-transform: capitalize;
+    font-weight: bold;
+    font-size: 0.8rem;
+    margin-right: 15px;
+  }
+  .cutomButton-icon {
+    font-size: 20px;
+  }
+}
+
+.cutomButton-box:hover {
+  opacity: 100%;
+}

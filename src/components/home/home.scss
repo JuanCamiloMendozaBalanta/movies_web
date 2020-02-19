@@ -1,0 +1,17 @@
+@import url('../../style/Colors.css');
+
+.home-box {
+  display: flex;
+  width: 100%;
+  flex-flow: column;
+  .header-box {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    position: fixed;
+    z-index: 1;
+    top: 0px;
+    background-color: white;
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.15);
+  }
+}

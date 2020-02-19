@@ -1,0 +1,31 @@
+@import url('../../style/Colors.css');
+
+.header-wrap {
+  justify-content: space-between;
+  color: var(--dark-blue);
+  align-items: center;
+  img {
+    width: 40px;
+    height: auto;
+  }
+  .header-left {
+    display: flex;
+    align-items: flex-end;
+    .header-left-logo {
+      margin-right: 10px;
+    }
+    .header-left-name {
+      font-size: 1.3rem;
+      font-weight: bold;
+      font-family: 'Exo', sans-serif;
+      color: var(--gray);
+    }
+  }
+  .header-right {
+    display: flex;
+    position: relative;
+    .header-right-profile {
+      cursor: pointer;
+    }
+  }
+}

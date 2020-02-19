@@ -1,0 +1,12 @@
+@import url('./Reset.css');
+@import url('./Colors.css');
+
+body {
+  overflow-x: hidden;
+  font-family: 'Lato', sans-serif;
+  section {
+    display: flex;
+    width: 1080px;
+    padding: 20px 20px;
+  }
+}

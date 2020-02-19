@@ -1,0 +1,40 @@
+@import url('..//../style/Colors.css');
+
+.dashboard-box {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  color: white;
+  align-items: center;
+  padding-top: 100px;
+  .dashboard-wrap {
+    justify-content: space-between;
+    color: var(--dark-blue);
+    flex-flow: column;
+    .dashboard-controls {
+      display: flex;
+      margin-bottom: 15px;
+      width: fit-content;
+      .dashboard-options {
+        margin: 5px;
+        padding-bottom: 5px;
+        cursor: pointer;
+      }
+      .isSelected {
+        font-weight: bold;
+        border-bottom: solid 3px var(--dark-yellow);
+      }
+    }
+    .dashboard-content {
+      display: flex;
+      width: 100%;
+      flex-wrap: wrap;
+    }
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .dashboard-box .dashboard-wrap .dashboard-content {
+    justify-content: space-around;
+  }
+}

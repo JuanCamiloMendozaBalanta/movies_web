@@ -1,0 +1,34 @@
+@import url('../../style/Colors.css');
+
+.movieCard-box {
+  display: flex;
+  flex-flow: column;
+  background-color: white;
+  border-radius: 5px;
+  box-shadow: 1px 1px 4px 0px rgba(0, 0, 0, 0.15);
+  width: 150px;
+  height: 214px;
+  font-family: 'Exo', sans-serif;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  color: var(--gray);
+  margin: 0px 10px 15px 0px;
+  padding: 10px;
+  cursor: pointer;
+  p {
+    padding-bottom: 5px;
+    text-align: center;
+    line-height: 1rem;
+  }
+  .movieCard-img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    margin-bottom: 15px;
+  }
+}
+
+.movieCard-box:hover {
+  box-shadow: 1px 1px 7px 0px rgba(0, 0, 0, 0.4);
+}
