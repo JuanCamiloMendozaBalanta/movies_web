@@ -16,11 +16,11 @@
     justify-content: flex-end;
     .material-icons {
       cursor: pointer;
-      opacity: 50%;
+      opacity: 0.5;
     }
     .material-icons:hover {
       color: black;
-      opacity: 100%;
+      opacity: 1;
     }
   }
   .profile-content {

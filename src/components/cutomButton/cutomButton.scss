@@ -5,7 +5,7 @@
   align-items: center;
   justify-content: center;
   width: fit-content;
-  opacity: 80%;
+  opacity: 0.8;
   cursor: pointer;
   .cutomButton-tex {
     text-transform: capitalize;
@@ -19,5 +19,5 @@
 }
 
 .cutomButton-box:hover {
-  opacity: 100%;
+  opacity: 1;
 }
