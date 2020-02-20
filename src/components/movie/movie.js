@@ -14,15 +14,16 @@ const Movie = props => {
     return `https://image.tmdb.org/t/p/w500${image}`;
   };
   const [comment, setComment] = useState('');
-  const textarea = document.getElementById('textarea-1');
 
   useEffect(() => {
+    const textarea = document.getElementById('textarea-1');
     if (textarea && context.currentMovie.currentComment) {
       textarea.value = context.currentMovie.currentComment;
     }
   });
 
   const callToSetComment = () => {
+    const textarea = document.getElementById('textarea-1');
     if (textarea && textarea.value) {
       setComment(textarea.value);
       context.setMovieComment(textarea.value);
@@ -30,6 +31,7 @@ const Movie = props => {
   };
 
   const deleteComment = () => {
+    const textarea = document.getElementById('textarea-1');
     if (textarea && textarea.value) {
       setComment('');
       context.setMovieComment('');
