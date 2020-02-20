@@ -1,4 +1,4 @@
-# Web Condorlab-test -- Frontend
+# Movies Web
 
 | STACK    |         COMMANDS         |                     PORT |
 | -------- | :----------------------: | -----------------------: |
