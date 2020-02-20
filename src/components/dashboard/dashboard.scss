@@ -21,6 +21,7 @@
       .dashboard-years {
         display: flex;
         width: fit-content;
+        justify-content: center;
         .dashboard-options {
           margin: 5px;
           padding-bottom: 5px;
@@ -47,5 +48,15 @@
 @media screen and (max-width: 800px) {
   .dashboard-box .dashboard-wrap .dashboard-content {
     justify-content: space-around;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .dashboard-box .dashboard-wrap .dashboard-controls {
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    .dashboard-years {
+      flex-wrap: wrap;
+    }
   }
 }

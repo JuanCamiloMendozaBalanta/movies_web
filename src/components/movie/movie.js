@@ -14,16 +14,26 @@ const Movie = props => {
     return `https://image.tmdb.org/t/p/w500${image}`;
   };
   const [comment, setComment] = useState('');
+  const textarea = document.getElementById('textarea-1');
+
   useEffect(() => {
-    const textarea = document.getElementById('textarea-1');
     if (textarea && context.currentMovie.currentComment) {
       textarea.value = context.currentMovie.currentComment;
     }
   });
 
-  const callToSetComment = comment => {
-    setComment(comment);
-    context.setMovieComment(comment);
+  const callToSetComment = () => {
+    if (textarea && textarea.value) {
+      setComment(textarea.value);
+      context.setMovieComment(textarea.value);
+    }
+  };
+
+  const deleteComment = () => {
+    if (textarea && textarea.value) {
+      setComment('');
+      context.setMovieComment('');
+    }
   };
 
   return (
@@ -73,14 +83,12 @@ const Movie = props => {
                       textColor="#ffffff"
                       icon="add_comment"
                       setMovieComment={callToSetComment}
-                      comment={comment}
                     />
                     <CustomButton
                       backgroundColor="#ea3e3c"
                       textColor="#ffffff"
                       icon="delete"
-                      setMovieComment={callToSetComment}
-                      comment=""
+                      setMovieComment={deleteComment}
                     />
                   </div>
                 ) : (
