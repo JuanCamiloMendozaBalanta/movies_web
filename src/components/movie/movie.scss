@@ -74,16 +74,16 @@
             padding: 10px;
             border: solid 1px lightgray;
           }
-        }
-
-        .movie-comment-buttons {
-          display: flex;
-          padding-top: 10px;
-          justify-content: flex-end;
-          .cutomButton-box {
-            margin-right: 5px;
-            p {
-              padding: 0px;
+          .movie-comment-buttons,
+          .reactLoading-wrap {
+            display: flex;
+            padding-top: 10px;
+            justify-content: flex-end;
+            .cutomButton-box {
+              margin-right: 5px;
+              p {
+                padding: 0px;
+              }
             }
           }
         }

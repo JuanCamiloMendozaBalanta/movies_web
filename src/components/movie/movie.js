@@ -1,5 +1,6 @@
 //REACT
 import React, { useState, useEffect } from 'react';
+import ReactLoading from 'react-loading';
 
 //COMPONENTS
 import CustomButton from '../cutomButton/cutomButton';
@@ -65,22 +66,28 @@ const Movie = props => {
                   className="movie-text-comment"
                   onChange={e => setComment(e.target.value)}
                 ></textarea>
-                <div className="movie-comment-buttons">
-                  <CustomButton
-                    backgroundColor="#439f9a"
-                    textColor="#ffffff"
-                    icon="add_comment"
-                    setMovieComment={callToSetComment}
-                    comment={comment}
-                  />
-                  <CustomButton
-                    backgroundColor="#ea3e3c"
-                    textColor="#ffffff"
-                    icon="delete"
-                    setMovieComment={callToSetComment}
-                    comment=""
-                  />
-                </div>
+                {!context.showLoading ? (
+                  <div className="movie-comment-buttons">
+                    <CustomButton
+                      backgroundColor="#439f9a"
+                      textColor="#ffffff"
+                      icon="add_comment"
+                      setMovieComment={callToSetComment}
+                      comment={comment}
+                    />
+                    <CustomButton
+                      backgroundColor="#ea3e3c"
+                      textColor="#ffffff"
+                      icon="delete"
+                      setMovieComment={callToSetComment}
+                      comment=""
+                    />
+                  </div>
+                ) : (
+                  <div className="reactLoading-wrap">
+                    <ReactLoading type="bars" color="#439f9a" />
+                  </div>
+                )}
               </div>
             </div>
           </div>

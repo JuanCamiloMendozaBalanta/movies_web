@@ -37,6 +37,7 @@ class Provider extends Component {
     isLoading: true,
     user: null,
     isAuthenticated: false,
+    showLoading: false,
     movies: [],
     currentMovie: {
       id: null,
@@ -123,7 +124,8 @@ class Provider extends Component {
     newMovie.currentComment = comment;
 
     this.setState({
-      currentMovie: newMovie
+      currentMovie: newMovie,
+      showLoading: true
     });
     await this.save({ id, comment });
   };
@@ -163,6 +165,9 @@ class Provider extends Component {
       return await axios
         .post(`${api_url}/movies`, data)
         .then(response => {
+          this.setState({
+            showLoading: false
+          });
           return response.data;
         })
         .catch(e => console.error(`error ${e}`));
@@ -177,6 +182,9 @@ class Provider extends Component {
       return await axios
         .put(`${api_url}/movies/${movie}/${user}`, { score, comment })
         .then(response => {
+          this.setState({
+            showLoading: false
+          });
           return response.data;
         })
         .catch(e => console.error(`error ${e}`));
@@ -274,7 +282,9 @@ class Provider extends Component {
     const data = await this.getInfoMovies(id);
     const { user } = this.state;
     if (data) {
-      const otherComments = data.filter(ele => ele.user !== user.email);
+      const otherComments = data.filter(
+        ele => ele.user !== user.email && ele.comment
+      );
       const userInfo = data.find(
         ele => ele.user === user.email && ele.movie === id.toString()
       );
@@ -345,7 +355,8 @@ class Provider extends Component {
       headerOptions,
       user,
       movies,
-      currentMovie
+      currentMovie,
+      showLoading
     } = this.state;
     const {
       selectHeaderOption,
@@ -361,6 +372,7 @@ class Provider extends Component {
       user,
       movies,
       currentMovie,
+      showLoading,
       selectHeaderOption,
       setCurrentMovie,
       setMovieScore,

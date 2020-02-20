@@ -31,6 +31,10 @@
           border-bottom: solid 3px var(--dark-yellow);
         }
       }
+      .dashboard-search-wrap {
+        display: flex;
+        align-items: center;
+      }
     }
     .dashboard-content {
       display: flex;
