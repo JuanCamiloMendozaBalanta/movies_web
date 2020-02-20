@@ -74,8 +74,7 @@
             padding: 10px;
             border: solid 1px lightgray;
           }
-          .movie-comment-buttons,
-          .reactLoading-wrap {
+          .movie-comment-buttons {
             display: flex;
             padding-top: 10px;
             justify-content: flex-end;
@@ -84,6 +83,15 @@
               p {
                 padding: 0px;
               }
+            }
+          }
+          .reactLoading-wrap {
+            display: flex;
+            padding-top: 10px;
+            justify-content: flex-end;
+            height: 33px;
+            svg {
+              height: 33px;
             }
           }
         }

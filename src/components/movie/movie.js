@@ -93,7 +93,12 @@ const Movie = props => {
                   </div>
                 ) : (
                   <div className="reactLoading-wrap">
-                    <ReactLoading type="bars" color="#439f9a" />
+                    <ReactLoading
+                      className="reactLoading-img"
+                      type="bars"
+                      color="#439f9a"
+                      height={33}
+                    />
                   </div>
                 )}
               </div>
