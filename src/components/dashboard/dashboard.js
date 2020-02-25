@@ -6,6 +6,7 @@ import './dashboard.scss';
 
 //COMPONENTS
 import MovieCard from '../movieCard/movieCard';
+import DropDown from '../dropDown/dropDown';
 
 const Dashboard = props => {
   const { context } = props;
@@ -19,21 +20,18 @@ const Dashboard = props => {
       {context && (
         <section className="dashboard-wrap">
           <div className="dashboard-controls">
-            <ul className="dashboard-years">
-              {context.headerOptions.map((item, i) => {
-                return (
-                  <li
-                    className={`dashboard-options ${
-                      item.isSelected ? 'isSelected' : ''
-                    } `}
-                    key={i}
-                    onClick={() => context.selectHeaderOption(item.year)}
-                  >
-                    {item.year}
-                  </li>
-                );
-              })}
-            </ul>
+            <DropDown
+              initialText="Filter by years"
+              options={context.headerOptions}
+              changeCurrentValue={context.selectHeaderOption}
+              minWidth="126px"
+            />
+            <DropDown
+              options={context.othersOptions}
+              changeCurrentValue={context.selectOthersOptions}
+              initialText="Other options"
+              minWidth="126px"
+            />
             <div className="dashboard-search-wrap">
               <input
                 id="search-1"

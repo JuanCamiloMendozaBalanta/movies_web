@@ -20,16 +20,20 @@ const MyContext = React.createContext();
 class Provider extends Component {
   state = {
     headerOptions: [
-      { id: 9, isSelected: true, year: 2019 },
-      { id: 8, isSelected: false, year: 2018 },
-      { id: 7, isSelected: false, year: 2017 },
-      { id: 6, isSelected: false, year: 2016 },
-      { id: 5, isSelected: false, year: 2015 },
-      { id: 4, isSelected: false, year: 2014 },
-      { id: 3, isSelected: false, year: 2013 },
-      { id: 2, isSelected: false, year: 2012 },
-      { id: 1, isSelected: false, year: 2011 },
-      { id: 0, isSelected: false, year: 2010 }
+      { id: 9, isSelected: false, value: 2019 },
+      { id: 8, isSelected: false, value: 2018 },
+      { id: 7, isSelected: false, value: 2017 },
+      { id: 6, isSelected: false, value: 2016 },
+      { id: 5, isSelected: false, value: 2015 },
+      { id: 4, isSelected: false, value: 2014 },
+      { id: 3, isSelected: false, value: 2013 },
+      { id: 2, isSelected: false, value: 2012 },
+      { id: 1, isSelected: false, value: 2011 },
+      { id: 0, isSelected: false, value: 2010 }
+    ],
+    othersOptions: [
+      { id: 0, isSelected: false, value: 'Top 10' },
+      { id: 1, isSelected: false, value: 'Latest' }
     ],
     currentYear: 2019,
     currentSearch: 'a',
@@ -63,23 +67,43 @@ class Provider extends Component {
    * Change the current header option
    * @param {*} year
    */
-  selectHeaderOption = async year => {
+  selectHeaderOption = async item => {
+    const year = item.value;
     this.setState({
       headerOptions: [
-        { id: 9, isSelected: year === 2019 ? true : false, year: 2019 },
-        { id: 8, isSelected: year === 2018 ? true : false, year: 2018 },
-        { id: 7, isSelected: year === 2017 ? true : false, year: 2017 },
-        { id: 6, isSelected: year === 2016 ? true : false, year: 2016 },
-        { id: 5, isSelected: year === 2015 ? true : false, year: 2015 },
-        { id: 4, isSelected: year === 2014 ? true : false, year: 2014 },
-        { id: 3, isSelected: year === 2013 ? true : false, year: 2013 },
-        { id: 2, isSelected: year === 2012 ? true : false, year: 2012 },
-        { id: 1, isSelected: year === 2011 ? true : false, year: 2011 },
-        { id: 0, isSelected: year === 2010 ? true : false, year: 2010 }
+        { id: 9, isSelected: year === 2019 ? true : false, value: 2019 },
+        { id: 8, isSelected: year === 2018 ? true : false, value: 2018 },
+        { id: 7, isSelected: year === 2017 ? true : false, value: 2017 },
+        { id: 6, isSelected: year === 2016 ? true : false, value: 2016 },
+        { id: 5, isSelected: year === 2015 ? true : false, value: 2015 },
+        { id: 4, isSelected: year === 2014 ? true : false, value: 2014 },
+        { id: 3, isSelected: year === 2013 ? true : false, value: 2013 },
+        { id: 2, isSelected: year === 2012 ? true : false, value: 2012 },
+        { id: 1, isSelected: year === 2011 ? true : false, value: 2011 },
+        { id: 0, isSelected: year === 2010 ? true : false, value: 2010 }
       ],
       currentYear: year
     });
     await this.initMovies(year, this.state.currentSearch);
+  };
+
+  selectOthersOptions = async item => {
+    const { value } = item;
+    this.setState({
+      othersOptions: [
+        {
+          id: 0,
+          isSelected: value === 'Top 10' ? true : false,
+          value: 'Top 10'
+        },
+        {
+          id: 1,
+          isSelected: value === 'Latest' ? true : false,
+          value: 'Latest'
+        }
+      ]
+    });
+    this.callToOthersFilters(item);
   };
   setCurrentSearch = async value => {
     const search = value && value !== '' ? value : 'a';
@@ -90,6 +114,7 @@ class Provider extends Component {
   };
   setCurrentMovie = async id => {
     const movie = await this.initCurrentMovie(id);
+    await this.getVideoUrls(id);
     await this.updateScoreAndComments(movie);
     this.props.history.push(`/movie/${id}`);
   };
@@ -153,6 +178,28 @@ class Provider extends Component {
         .get(`${api_url}/movies/?movie=${idMovie}&user=${email}`)
         .then(response => {
           return response.data;
+        })
+        .catch(e => console.error(`error ${e}`));
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  getVideoUrls = id => {
+    try {
+      axios
+        .get(
+          `https://api.themoviedb.org/3/movie/${id}?api_key=${movie_key}&append_to_response=videos`
+        )
+        .then(response => {
+          const videos = response.data.videos.results
+            ? response.data.videos.results
+            : [];
+          const newMovie = this.state.currentMovie;
+          newMovie.videos = videos;
+          this.setState({
+            currentMovie: newMovie
+          });
         })
         .catch(e => console.error(`error ${e}`));
     } catch (error) {
@@ -236,6 +283,41 @@ class Provider extends Component {
         .catch(e => console.error(`error ${e}`));
     } catch (error) {
       console.log(error);
+    }
+  };
+
+  callToOthersFilters = async item => {
+    const { id } = item;
+    if (id) {
+      try {
+        axios
+          .get(`${movie_api_url}/movie/latest?api_key=${movie_key}`)
+          .then(response => {
+            const res = {
+              results: [response.data]
+            };
+            this.setState({
+              movies: res
+            });
+          })
+          .catch(e => console.error(`error ${e}`));
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      try {
+        axios
+          .get(`${movie_api_url}/movie/top_rated?api_key=${movie_key}`)
+          .then(response => {
+            response.data.results = response.data.results.slice(0, 10);
+            this.setState({
+              movies: response.data
+            });
+          })
+          .catch(e => console.error(`error ${e}`));
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
 
@@ -343,6 +425,7 @@ class Provider extends Component {
     if (route.includes('movie')) {
       const id = route.split('/').pop();
       const movie = await this.initCurrentMovie(id);
+      await this.getVideoUrls(id);
       await this.updateScoreAndComments(movie);
     }
   };
@@ -353,6 +436,7 @@ class Provider extends Component {
       isLoading,
       isAuthenticated,
       headerOptions,
+      othersOptions,
       user,
       movies,
       currentMovie,
@@ -360,6 +444,7 @@ class Provider extends Component {
     } = this.state;
     const {
       selectHeaderOption,
+      selectOthersOptions,
       setCurrentMovie,
       setMovieScore,
       setMovieComment,
@@ -378,6 +463,8 @@ class Provider extends Component {
       setMovieScore,
       setMovieComment,
       headerOptions,
+      othersOptions,
+      selectOthersOptions,
       setCurrentSearch,
       loginWithRedirect: (...p) => auth0Client.loginWithRedirect(...p),
       getTokenSilently: (...p) => auth0Client.getTokenSilently(...p),

@@ -1,6 +1,10 @@
 //REACT
 import React, { useState, useEffect } from 'react';
 import ReactLoading from 'react-loading';
+import ReactPlayer from 'react-player';
+
+//UTILS
+import { imageUrl, videoUrl } from '../../utils';
 
 //COMPONENTS
 import CustomButton from '../cutomButton/cutomButton';
@@ -10,9 +14,7 @@ import './movie.scss';
 
 const Movie = props => {
   const { context } = props;
-  const imageUrl = image => {
-    return `https://image.tmdb.org/t/p/w500${image}`;
-  };
+
   const [comment, setComment] = useState('');
 
   useEffect(() => {
@@ -77,6 +79,7 @@ const Movie = props => {
                   value={comment}
                   className="movie-text-comment"
                   onChange={e => setComment(e.target.value)}
+                  placeholder="Add a comment"
                 ></textarea>
                 {!context.showLoading ? (
                   <div className="movie-comment-buttons">
@@ -106,19 +109,41 @@ const Movie = props => {
               </div>
             </div>
           </div>
+          {context.currentMovie.videos && (
+            <div className="movie-trailers-wrap">
+              <h1 className="movie-title">Trailers</h1>
+              <ul className="movie-trailer">
+                {context.currentMovie.videos.map(ele => {
+                  return (
+                    <ReactPlayer
+                      url={videoUrl(ele)}
+                      className="react-player"
+                      controls={true}
+                      width="100%"
+                      height="250px"
+                      className="movie-videos"
+                    />
+                  );
+                })}
+              </ul>
+            </div>
+          )}
           {context.currentMovie.comments && (
-            <ul className="movie-others-comments">
-              {context.currentMovie.comments.map((item, i) => {
-                return (
-                  <li key={i} className="movie-other-users">
-                    <p className="movie-others-comments-user">{item.user}</p>
-                    <p className="movie-others-comments-comment">
-                      {item.comment}
-                    </p>
-                  </li>
-                );
-              })}
-            </ul>
+            <div>
+              <h1 className="movie-title">Comments</h1>
+              <ul className="movie-others-comments">
+                {context.currentMovie.comments.map((item, i) => {
+                  return (
+                    <li key={i} className="movie-other-users">
+                      <p className="movie-others-comments-user">{item.user}</p>
+                      <p className="movie-others-comments-comment">
+                        {item.comment}
+                      </p>
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
           )}
         </section>
       )}

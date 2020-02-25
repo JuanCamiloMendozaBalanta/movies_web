@@ -11,27 +11,16 @@
     justify-content: space-between;
     color: var(--dark-blue);
     flex-flow: column;
+    .dropDown-box {
+      margin-right: 20px;
+    }
     .dashboard-controls {
       display: flex;
       margin-bottom: 15px;
       width: 100%;
-      justify-content: space-between;
+      justify-content: flex-end;
       align-items: center;
       flex-wrap: wrap;
-      .dashboard-years {
-        display: flex;
-        width: fit-content;
-        justify-content: center;
-        .dashboard-options {
-          margin: 5px;
-          padding-bottom: 5px;
-          cursor: pointer;
-        }
-        .isSelected {
-          font-weight: bold;
-          border-bottom: solid 3px var(--dark-yellow);
-        }
-      }
       .dashboard-search-wrap {
         display: flex;
         align-items: center;
@@ -40,6 +29,7 @@
     .dashboard-content {
       display: flex;
       width: 100%;
+      justify-content: center;
       flex-wrap: wrap;
     }
   }
@@ -52,11 +42,16 @@
 }
 
 @media screen and (max-width: 500px) {
-  .dashboard-box .dashboard-wrap .dashboard-controls {
-    flex-wrap: wrap;
-    justify-content: flex-end;
-    .dashboard-years {
-      flex-wrap: wrap;
+  .dashboard-box .dashboard-wrap {
+    .dropDown-box {
+      margin-right: 0px;
+      margin-left: 20px;
+    }
+    .dashboard-controls {
+      flex-wrap: wrap-reverse;
+      .dashboard-search-wrap {
+        padding-bottom: 10px;
+      }
     }
   }
 }
