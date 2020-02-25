@@ -82,6 +82,10 @@ class Provider extends Component {
         { id: 1, isSelected: year === 2011 ? true : false, value: 2011 },
         { id: 0, isSelected: year === 2010 ? true : false, value: 2010 }
       ],
+      othersOptions: [
+        { id: 0, isSelected: false, value: 'Top 10' },
+        { id: 1, isSelected: false, value: 'Latest' }
+      ],
       currentYear: year
     });
     await this.initMovies(year, this.state.currentSearch);

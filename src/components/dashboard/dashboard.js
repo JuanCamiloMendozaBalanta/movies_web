@@ -10,7 +10,7 @@ import DropDown from '../dropDown/dropDown';
 
 const Dashboard = props => {
   const { context } = props;
-  const [search, setSearch] = useState('a');
+  const [search, setSearch] = useState('');
   const callToSetSearch = async value => {
     setSearch(value);
     await context.setCurrentSearch(value);
