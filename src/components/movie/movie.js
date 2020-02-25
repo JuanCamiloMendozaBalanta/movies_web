@@ -128,23 +128,26 @@ const Movie = props => {
               </ul>
             </div>
           )}
-          {context.currentMovie.comments && (
-            <div>
-              <h1 className="movie-title">Comments</h1>
-              <ul className="movie-others-comments">
-                {context.currentMovie.comments.map((item, i) => {
-                  return (
-                    <li key={i} className="movie-other-users">
-                      <p className="movie-others-comments-user">{item.user}</p>
-                      <p className="movie-others-comments-comment">
-                        {item.comment}
-                      </p>
-                    </li>
-                  );
-                })}
-              </ul>
-            </div>
-          )}
+          {context.currentMovie.comments &&
+            context.currentMovie.comments.lemgth > 0 && (
+              <div>
+                <h1 className="movie-title">Comments</h1>
+                <ul className="movie-others-comments">
+                  {context.currentMovie.comments.map((item, i) => {
+                    return (
+                      <li key={i} className="movie-other-users">
+                        <p className="movie-others-comments-user">
+                          {item.user}
+                        </p>
+                        <p className="movie-others-comments-comment">
+                          {item.comment}
+                        </p>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </div>
+            )}
         </section>
       )}
     </div>
