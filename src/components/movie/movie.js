@@ -129,7 +129,7 @@ const Movie = props => {
             </div>
           )}
           {context.currentMovie.comments &&
-            context.currentMovie.comments.lemgth > 0 && (
+            context.currentMovie.comments.length > 0 && (
               <div>
                 <h1 className="movie-title">Comments</h1>
                 <ul className="movie-others-comments">
